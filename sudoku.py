@@ -1,6 +1,26 @@
 import requests
 import json
+import time
 import pprint
+
+# Delay to make display slower
+def delay():
+    time.sleep(0.475)
+
+# Ask difficulty
+def askDiff():
+    while True:
+        diff = input('What difficulty level would you like?\nEasy, Medium, or Hard?\n').lower()
+        if diff not in ('easy', 'medium', 'hard'):
+            print('Sorry, please enter a valid difficulty level.')
+        else:
+            break
+    if diff == 'easy':
+        return 1
+    elif diff == 'medium':
+        return 2
+    elif diff == 'hard':
+        return 3
 
 # Calls a sudoku API to generate a sudoku board based on a difficulty level
 # Source: "http://www.cs.utep.edu/cheon/ws/sudoku/"
@@ -149,15 +169,21 @@ testBoard = [
 '''
 
 def main():
-    easy = 1
-    medium = 2
-    hard = 3
-    board = createBoard(medium)
-    print('Board:')
+    difficulty = askDiff()
+    board = createBoard(difficulty)
+    if difficulty == 1:
+        level = 'Easy'
+    elif difficulty == 2:
+        level = 'Medium'
+    elif difficulty == 3:
+        level = 'Hard'
+    print()
+    print(f'Board ({level}):')
     printBoard(board)
     print()
     global completeBoard
     sudokuSolver(board, 0, 0)
+    delay()
     print('Solution:')
     printBoard(completeBoard)
 
